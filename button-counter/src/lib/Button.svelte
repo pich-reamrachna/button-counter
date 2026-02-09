@@ -1,9 +1,11 @@
-<script>
-	let { label = '+1' } = $props();
-	let count = $state(0);
+<script lang="ts">
+	let count = 0;
 
-	function increment() {
-		count += 1;
+	// read data from +server.ts
+	async function load(){
+		const res = await fetch("/api/+server.ts")
+		const data = await res.json();
+		count = data.count;
 	}
 </script>
 
