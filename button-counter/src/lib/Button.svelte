@@ -1,11 +1,16 @@
 <script lang="ts">
 	let count = 0;
+	let label = "Click me";
 
 	// read data from +server.ts
 	async function load(){
 		const res = await fetch("/api/+server.ts")
 		const data = await res.json();
 		count = data.count;
+	}
+
+	function increment(){
+		count += 1;
 	}
 </script>
 
