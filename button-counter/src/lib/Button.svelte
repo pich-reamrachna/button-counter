@@ -1,17 +1,26 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
 	let count = 0;
 	let label = "Click me";
 
 	// read data from +server.ts
-	async function load(){
-		const res = await fetch("/api/+server.ts")
+    onMount(async function load(){
+		const res = await fetch("/api/")
+		const data = await res.json();
+		count = data.count;
+	});
+	// Call API to increment count
+
+	async function increment() {
+		const res = await fetch("/api/", {
+			method: "POST"
+		});
+
 		const data = await res.json();
 		count = data.count;
 	}
-
-	function increment(){
-		count += 1;
-	}
+	
 </script>
 
 <div class="button-wrapper">
