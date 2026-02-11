@@ -1,7 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import RandomBtn from "./randombtn.svelte";
-
+  
+  // TypeScript Interface
+  interface CountResponse { // Added interface for API response to avoid `any` type
+    count: number;
+  }
 	let count = 0;
 	let isLoading = true 
 
@@ -12,7 +16,7 @@
 			
 			if (!res.ok) throw new Error("API failed"); // res.ok is a boolean built into the Fetch API (Status Code 200 => OK)
 
-			const data = await res.json(); // parses JSON as a JS object
+			const data: CountResponse = await res.json(); // typed API response
 			count = data.count; // assigning the value of key "count" to count variable
 
 		} catch (err) {
@@ -33,7 +37,7 @@
 			
 			if (!res.ok) throw new Error("Increment Failed");
 
-			const data = await res.json();
+			const data: CountResponse = await res.json(); 
 			count = data.count;
 
 		} catch (err) {
