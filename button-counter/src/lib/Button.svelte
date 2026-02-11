@@ -3,6 +3,7 @@
   import RandomBtn from "./randombtn.svelte";
 
 	let count = 0;
+	let isLoading = true 
 
 	// read data from +server.ts
     onMount(async function load(){
@@ -16,11 +17,15 @@
 
 		} catch (err) {
 			console.error(err); 
+		} finally {
+			isLoading = false // disable spinner after finishing request
 		}
+
 	});
 	
 	// Call API to increment count
 	async function increment() {
+		isLoading = true // change loading to true while making request to display spinner
 		try {
 			const res = await fetch("/api/", {
 			method: "POST"
@@ -33,14 +38,20 @@
 
 		} catch (err) {
 			console.error(err);
+		} finally {
+			isLoading = false
 		}
 	}
 	
 </script>
 
 <div class="button-wrapper">
-  <p>Count is {count}</p>
-  <RandomBtn clickHandler={increment} />
+	{#if isLoading && count == 0}
+		<p>Loading...</p>
+	{:else}
+		  <p>Count is {count}</p>
+	{/if}
+  <RandomBtn clickHandler={increment} isLoading= {isLoading}/>
 </div>
 
 <style>
