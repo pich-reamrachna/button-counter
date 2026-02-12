@@ -25,7 +25,12 @@
 	
 	// Call API to increment count
 	async function increment() {
+    const previousCount = count;
+    
+    // optimistic UI
+    count = count + 1;
 		isLoading = true // change loading to true while making request to display spinner
+
 		try {
 			const res = await fetch("/api/", {
 			method: "POST"
@@ -37,6 +42,8 @@
 			count = data.count;
 
 		} catch (err) {
+      // rollback if req fails
+      count = previousCount;
 			console.error(err);
 		} finally {
 			isLoading = false
