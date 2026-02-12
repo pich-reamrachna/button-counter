@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import RandomBtn from "./randombtn.svelte";
-  
+  import { API_BASE_URL } from "$lib/constants";
+
   // TypeScript Interface
   interface CountResponse { // Added interface for API response to avoid `any` type
     count: number;
@@ -12,7 +13,7 @@
 	// read data from +server.ts
     onMount(async function load(){
 		try {
-			const res = await fetch("/api/") // fetch sends a GET request (GET http://localhost:5173/api/)
+			const res = await fetch(API_BASE_URL) // fetch sends a GET request (GET http://localhost:5173/api/)
 			
 			if (!res.ok) throw new Error("API failed"); // res.ok is a boolean built into the Fetch API (Status Code 200 => OK)
 
@@ -36,7 +37,7 @@
 		isLoading = true // change loading to true while making request to display spinner
 
 		try {
-			const res = await fetch("/api/", {
+			const res = await fetch(API_BASE_URL, {
 			method: "POST"
 			});
 			
